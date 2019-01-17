@@ -1,0 +1,80 @@
+$(function() {
+
+    let request = new XMLHttpRequest(); 
+    request.onload = function () { // laddar upp information
+        if (this.readyState == 4 && this.status == 200) {
+            let user = JSON.parse(this.response);
+            
+            let fullname = user.firstname + " " + user.lastname; // lägger ihop förnamn och wfternMN 
+            console.log(fullname); // hämtar
+         
+
+            let password = user.password;
+            console.log(password);
+        
+        }
+    
+    };
+
+    request.open('GET', 'https://fe18.azurewebsites.net/api/user'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+    request.send();
+
+
+ // 
+
+ $(function() {
+
+    let request = new XMLHttpRequest(); 
+    request.onload = function () { // laddar upp information
+        if (this.readyState == 4 && this.status == 200) {
+            let object = JSON.parse(this.response);
+            
+             //  for ( let i=0; i< object.updates.length; i++ ) {
+               console.log(object.updates[0].title); // looper igenom hela arrayen
+               console.log(object.updates[0].time);
+
+            
+              // let title = object.updates[i].title;
+            
+            
+             //   $('#root').append(`<p>${title}</p>`); // virutuella doms
+           // }
+        
+            
+            
+            
+            
+        
+        }
+    
+    };
+
+
+    request.open('GET', 'https://fe18.azurewebsites.net/api/updates'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+    request.send(); // gå in till annan url
+
+
+
+
+    let request = new XMLHttpRequest();
+      request.onload = function () { // laddar upp information
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+
+            }
+      };
+
+      request.open('GET', 'https://fe18.azurewebsites.net/api/totalsaleschart'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+
+
+
+
+
+
+
+
+
+
+});
