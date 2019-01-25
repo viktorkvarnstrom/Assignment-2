@@ -8,6 +8,7 @@ $(function () {
                 $('#loginBtn').click(function () {
                     if ($('#inputEmail').val() !== object.email || $('#inputPassword').val() !== object.password) {
                         document.getElementById('passwordIncorect').innerHTML = "** The email or password is incorect";
+                        $("#passwordIncorect").fadeIn(1000).delay(2000).fadeOut(1500); 
                     } else if ($('#inputEmail').val() === object.email && $('#inputPassword').val() === object.password) {
                         window.location.replace('index.html');
                     }
