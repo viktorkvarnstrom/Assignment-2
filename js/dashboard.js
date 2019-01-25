@@ -1,6 +1,7 @@
 (function ($) {
   'use strict';
   $(function () {
+
     if ($('#fullName-welcomeText').length) {
       let request = new XMLHttpRequest();
       request.onload = function () {
@@ -8,14 +9,13 @@
           let object = JSON.parse(this.response);
 
           let fullName = object.firstname + " " + object.lastname;
-          $('#fullName-welcomeText').text(`hi, ${fullName}`);
+          $('#fullName-welcomeText').text(`Hej, ${fullName}`);
 
         }
       }
       request.open('GET', 'https://fe18.azurewebsites.net/api/user'); // Hämtar JavaScirpts objektet och sparar in det i request.   
       request.send();
     }
-
 
     if ($('#totalSalesAmount').length) {
       let request = new XMLHttpRequest();
@@ -78,9 +78,155 @@
       request.send();
     }
 
+    if ($('#offlineDownloads').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          let offlineDown = object.offline;
+          $('#offlineDownloads').text(`${offlineDown}`);
+        }
+      }
+      request.open('GET', 'https://fe18.azurewebsites.net/api/downloads'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+    }
+
+    if ($('#onlineDownloads').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          let onlineDown = object.online;
+          $('#onlineDownloads').text(`${onlineDown}`);
+        }
+      }
+      request.open('GET', 'https://fe18.azurewebsites.net/api/downloads'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+    }
+
+    if ($('#updates-box').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          for (var i = 0; object.updates.length; i++) {
+
+            $("#updates-box").append(
+              `
+              <li>
+                <h6>${object.updates[i].title}</h6>
+                <p class="mt-2">${object.updates[i].description}</p>
+                <p id="updates-time-1" class="text-muted mb-4">
+                  <i class="mdi mdi-clock-outline"></i>
+                  ${object.updates[i].time}
+                </p>
+              </li>
+              `
+            )
+          }
+
+        }
+      }
+      request.open('GET', 'https://fe18.azurewebsites.net/api/updates'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+    }
+
+    if ($('#tickets-box').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          for (var i = 0; object.tickets.length; i++) {
+
+            let names = object.tickets[i].fullname.split(" ");
+            let inits = names[0].charAt(0) + names[1].charAt(0);
+
+
+            $("#tickets-box tbody").append(
+              `
+                  <tr>
+                    <td class="pl-0">
+                      <div class="icon-rounded-primary icon-rounded-md">
+                      <h4 class="font-weight-medium">${inits}</h4>
+                  </div>
+                </td>
+                  <td>
+                      <p class="mb-0">${object.tickets[i].fullname}</p>
+                      <p class="text-muted mb-0">${object.tickets[i].city}</p>
+                   </td>
+                    <td>
+                      <p class="mb-0">${object.tickets[i].date}</p>
+                      <p class="text-muted mb-0">${object.tickets[i].time}</p>
+                    </td>
+                   <td>
+                      <p class="mb-0">${object.tickets[i].project}</p>
+                      <p class="text-muted mb-0">${object.tickets[i].status}</p>
+                    </td>
+                    <td class="pr-0">
+                     <i class="mdi mdi-dots-horizontal icon-sm cursor-pointer"></i>
+                    </td>
+                  </tr>
+              `
+            )
+          }
+
+        }
+      }
+      request.open('GET', 'https://fe18.azurewebsites.net/api/tickets'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+    }
+
+    if ($('#openBoxes').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          for (var i = 0; object.invoices.length; i++) {
+
+            switch (object.invoices[i].status) {
+              case "Öppen": 
+                  var badge = "badge-warning";
+                  break;
+              case "Pågående":
+                  var badge = "badge-success";
+                  break;
+              case "Tillfälligt stoppad":
+                  var badge = "badge-danger";
+                  break;
+              default:
+              console.log("Fel i switch");
+            } 
+
+            $("#openBoxes").append(
+              `
+              <tr>
+                <td>${object.invoices[i].invoicenumber}</td>
+                <td>${object.invoices[i].customer}</td>
+                <td>${object.invoices[i].shipping}</td>
+                <td class="font-weight-bold">${object.invoices[i].totalprice} kr</td>
+                <td>${object.invoices[i].customerprice} kr</td>
+                <td>
+                <div id="invoice-color" class="${badge} badge badge-fw">${object.invoices[i].status}</div>
+                </td>
+            </tr>
+              `
+            )
+          }
+
+        }
+      }
+      request.open('GET', 'https://fe18.azurewebsites.net/api/openinvoices'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+    }
 
 
 
+    // total slaes chart
     if ($("#total-sales-chart").length) {
       let request = new XMLHttpRequest();
       request.onload = function () { // laddar upp information
@@ -199,7 +345,9 @@
       request.open('GET', 'https://fe18.azurewebsites.net/api/totalsaleschart'); // Hämtar JavaScirpts objektet och sparar in det i request.   
       request.send();
     }
-    if ($("#users-chart").length) {                                                             //Userchart begins
+
+    // user chart DONE
+    if ($("#users-chart").length) {
       let request = new XMLHttpRequest();
       request.onload = function () { // laddar upp information
         if (this.readyState == 4 && this.status == 200) {
@@ -281,8 +429,8 @@
 
       request.open('GET', 'https://fe18.azurewebsites.net/api/userschart'); // Hämtar JavaScirpts objektet och sparar in det i request.   
       request.send();
-    }                                                                            // UserChart ends
-
+    }
+    // project chart DONE
     if ($("#projects-chart").length) {
       let request = new XMLHttpRequest();
       request.onload = function () { // laddar upp information
@@ -366,7 +514,7 @@
       request.send();
 
     }
-
+    // offline progress
     if ($('#offlineProgress').length) {
       var bar = new ProgressBar.Circle(offlineProgress, {
         color: '#000',
@@ -414,7 +562,7 @@
       bar.text.style.fontSize = '1rem';
       bar.animate(.64); // Number from 0.0 to 1.0
     }
-
+    // online progress
     if ($('#onlineProgress').length) {
       var bar = new ProgressBar.Circle(onlineProgress, {
         color: '#000',
@@ -462,7 +610,7 @@
       bar.text.style.fontSize = '1rem';
       bar.animate(.84); // Number from 0.0 to 1.0
     }
-
+    // Shit
     if ($("#revenue-chart").length) {
       var CurrentChartCanvas = $("#revenue-chart").get(0).getContext("2d");
       var CurrentChart = new Chart(CurrentChartCanvas, {
@@ -548,7 +696,7 @@
         }
       });
     }
-
+    // Distrubation chart DONE
     if ($("#distribution-chart").length) {
       let request = new XMLHttpRequest();
       request.onload = function () { // laddar upp information
@@ -586,13 +734,13 @@
               var text = [];
               text.push('<div class="distribution-chart">');
               text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
-              text.push('<p>Texas</p>');
+              text.push(`<p>${object.datasets[0].city[0]}</p>`);
               text.push('</div>');
               text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
-              text.push('<p>Utah</p>');
+              text.push(`<p>${object.datasets[0].city[1]}</p>`);
               text.push('</div>');
               text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
-              text.push('<p>Georgia</p>');
+              text.push(`<p>${object.datasets[0].city[2]}</p>`);
               text.push('</div>');
               text.push('</div>');
               return text.join("");
@@ -633,7 +781,7 @@
       request.open('GET', 'https://fe18.azurewebsites.net/api/distributionchart'); // Hämtar JavaScirpts objektet och sparar in det i request.   
       request.send();
     }
-
+    // Sales raport DONE
     if ($("#sale-report-chart").length) {
       let request = new XMLHttpRequest();
       request.onload = function () { // laddar upp information
@@ -647,7 +795,7 @@
             data: {
               labels: object.labels,
               datasets: [{
-                label: object.datasets[0].label,  
+                label: object.datasets[0].label,
                 data: object.datasets[0].data,
                 backgroundColor: ["#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4"]
               }

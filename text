@@ -78,3 +78,53 @@ $(function() {
 
 
 });
+
+
+            `
+              <li>
+                <h6>${object.updates[i].title}</h6>
+                <p class="mt-2">${object.updates[i].description}</p>
+                <p id="updates-time-1" class="text-muted mb-4">
+                  <i class="mdi mdi-clock-outline"></i>
+                  ${object.updates[i].time}
+                </p>
+              </li>
+              `
+
+
+
+
+
+            switch (object.invoices[i].status) {
+              case "Pågående":
+                $("#openBoxes div").addClass("badge-success");
+                console.log("Pågående");
+                break;
+              case "Öppen":
+                $("#openBoxes div").addClass("badge-warning");
+                console.log("Öppen");
+                break;
+              case "Tillfälligt stoppad":
+                $("#openBoxes div").addClass("badge-danger");
+                console.log("Tillfälligt stoppad");
+                break;
+              default:
+                console.log("error")
+            }
+
+                      switch (object.invoices[i].status) {
+            case "Öppen": 
+                var badge = "badge-warning";
+                break;
+            case "Pågående":
+                var badge = "badge-success";
+                break;
+            case "Tillfälligt stoppad":
+                var badge = "badge-danger";
+                break;
+            default:
+            console.log("Fel i switch");
+          } 
+
+
+          <div id="invoice-color" class="${badge} badge badge-fw">${object.invoices[i].status}</div>

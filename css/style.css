@@ -20866,3 +20866,10 @@ display: none;
 }
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+
+/* log in self style*/
+
+#passwordIncorect {
+    font-style: italic;
+    color: rgb(201, 5, 5);
+}
