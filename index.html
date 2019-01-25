@@ -25,7 +25,7 @@
               <div class="card bg-white">
                 <div class="card-body d-flex align-items-center justify-content-between">
                   <h4 id="fullName-welcomeText" class="mt-1 mb-1">Hi, </h4>
-                  <button class="btn btn-info d-none d-md-block"><a href="login.html">Logout</a></button>
+                  <button class="btn btn-info d-none d-md-block"><a class="text-white" href="login.html">Logout</a></button>
                 </div>
               </div>
             </div>
@@ -144,7 +144,7 @@
                       <canvas id="sale-report-chart"></canvas>
                     </div>
                   </div>
-                  <div class="col-md-5 col-lg-6 col-xl-5">
+                  <div id="salesReportOverview"class="col-md-5 col-lg-6 col-xl-5">
                     <div class="card-body">
                       <p class="card-title">Sales report overview</p>
                       <p class="pb-2 text-muted">Sale information on advertising, exhibitions, market research, online
@@ -152,20 +152,20 @@
                       <div class="d-flex flex-wrap justify-content-start mt-3 mr-4">
                         <div class="mr-3">
                           <p class="mb-0">Downloads</p>
-                          <h4>13,956</h4>
+                          <h4 id="salesReportDown">13,956</h4>
                         </div>
                         <div class="mr-3">
                           <p class="mb-0">Purchases</p>
-                          <h4>55,123</h4>
+                          <h4 id="salesReportPur">55,123</h4>
                         </div>
                         <div class="mr-3">
                           <p class="mb-0">Users</p>
-                          <h4>29829</h4>
+                          <h4 id="salesReportUser">29829</h4>
                         </div>
                       </div>
                       <div class="d-flex mb-3">
                         <i class="mdi mdi-arrow-expand-up mb-0 text-success mr-2 mt-1"></i>
-                        <p class="mb-0 text-dark">15% more than last week</p>
+                        <p id="salesReportGrowth" class="mb-0 text-dark">15% more than last week</p>
                       </div>
                       <div class="d-flex flex-wrap mb-5">
                         <button class="btn btn-info mt-3 mr-2">Update</button>

@@ -224,6 +224,24 @@
       request.send();
     }
 
+    if ($('#salesReportOverview').length) {
+      let request = new XMLHttpRequest();
+      request.onload = function () { // laddar upp information
+        if (this.readyState == 4 && this.status == 200) {
+          let object = JSON.parse(this.response);
+
+          $('#salesReportDown').text(`${object.downloads}`);
+          $('#salesReportPur').text(`${object.försäljning}`);
+          $('#salesReportUser').text(`${object.users}`);
+          $('#salesReportGrowth').text(`${object.growth}`);
+        
+        }
+      };
+
+      request.open('GET', 'https://fe18.azurewebsites.net/api/salesreportoverview'); // Hämtar JavaScirpts objektet och sparar in det i request.   
+      request.send();
+
+    }
 
 
     // total slaes chart
